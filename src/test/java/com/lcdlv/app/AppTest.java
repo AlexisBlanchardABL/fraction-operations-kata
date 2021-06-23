@@ -45,7 +45,8 @@ class AppTest {
                 Arguments.of(of(8, 4), of(2)),
                 Arguments.of(of(100, 25), of(4)),
                 Arguments.of(of(0, 25), of(0)),
-                Arguments.of(of(-47, 25), of(-47, 25))
+                Arguments.of(of(-47, 25), of(-47, 25)),
+                Arguments.of(of(1, -2), of(-1, 2))
         );
     }
 

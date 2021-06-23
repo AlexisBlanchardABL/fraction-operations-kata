@@ -50,6 +50,10 @@ public class Fraction {
     }
 
     Fraction simplify() {
+        if (denominator < 0) {
+            denominator *= -1;
+            numerator *= -1;
+        }
         int gcd = getGcd(this);
         return new Fraction(this.numerator / gcd, this.denominator / gcd);
     }
