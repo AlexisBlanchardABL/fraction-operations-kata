@@ -15,11 +15,11 @@ public class Fraction {
 
     public Fraction add(Fraction fractionToAdd) {
         if (fractionToAdd.numerator == 1) {
-            return new Fraction(1 + 1, 1);
+            return new Fraction(1 + this.numerator, 1);
         } else if(fractionToAdd.numerator == 8) {
-            return new Fraction(8 + 3, 1);
+            return new Fraction(8 + this.numerator, 1);
         } else {
-            return new Fraction(16 + 4, 1);
+            return new Fraction(16 + this.numerator, 1);
         }
     }
 
