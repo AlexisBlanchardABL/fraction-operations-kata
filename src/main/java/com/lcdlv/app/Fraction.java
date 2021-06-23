@@ -14,13 +14,7 @@ public class Fraction {
     }
 
     public Fraction add(Fraction fractionToAdd) {
-        if (fractionToAdd.numerator == 1) {
-            return new Fraction(1 + this.numerator, 1);
-        } else if(fractionToAdd.numerator == 8) {
-            return new Fraction(8 + this.numerator, 1);
-        } else {
-            return new Fraction(16 + this.numerator, 1);
-        }
+        return new Fraction(fractionToAdd.numerator + this.numerator, 1);
     }
 
     @Override
