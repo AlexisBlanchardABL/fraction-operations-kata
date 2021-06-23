@@ -1,5 +1,7 @@
 package com.lcdlv.app;
 
+import java.math.BigInteger;
+
 public class Fraction {
     private int numerator;
     private int denominator;
@@ -10,17 +12,11 @@ public class Fraction {
     }
 
     public static Fraction of(int numerator, int denominator) {
-        return new Fraction(numerator, denominator);
+        return new Fraction(numerator, denominator).simplify();
     }
 
     public Fraction add(Fraction fractionToAdd) {
-        int newNumerator = fractionToAdd.numerator + this.numerator;
-        int newDenominator = this.denominator;
-        if (this.denominator != 1 && newNumerator % this.denominator == 0) {
-            newNumerator = fractionToAdd.numerator + this.numerator / this.denominator;
-            newDenominator = 1;
-        }
-        return new Fraction(newNumerator, newDenominator);
+        return Fraction.of((this.numerator * fractionToAdd.denominator) + (fractionToAdd.numerator * this.denominator), fractionToAdd.denominator * this.denominator);
     }
 
     @Override
@@ -44,6 +40,15 @@ public class Fraction {
     @Override
     public String toString() {
         return numerator + " / " + denominator;
+    }
+
+    Fraction simplify() {
+        int gcd = getGcd(this);
+        return new Fraction(this.numerator / gcd, this.denominator / gcd);
+    }
+
+    private int getGcd(Fraction fraction) {
+        return BigInteger.valueOf(fraction.numerator).gcd(BigInteger.valueOf(fraction.denominator)).intValue();
     }
 
 }
