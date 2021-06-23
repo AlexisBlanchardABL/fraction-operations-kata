@@ -21,11 +21,11 @@ class AppTest {
 
     private static Stream<Arguments> addFraction() {
         return Stream.of(
-                Arguments.of(of(1, 1), of(1, 1), of(2, 1)),
-                Arguments.of(of(3, 1), of(8, 1), of(11, 1)),
-                Arguments.of(of(4, 1), of(16, 1), of(20, 1)),
-                Arguments.of(of(1, 2), of(1, 2), of(1, 1)),
-                Arguments.of(of(2, 2), of(2, 2), of(2, 1)),
+                Arguments.of(of(1), of(1), of(2)),
+                Arguments.of(of(3), of(8), of(11)),
+                Arguments.of(of(4), of(16), of(20)),
+                Arguments.of(of(1, 2), of(1, 2), of(1)),
+                Arguments.of(of(2, 2), of(2, 2), of(2)),
                 Arguments.of(of(5,8), of(4, 2), of(21, 8)),
                 Arguments.of(of(2,3), of(1, 4), of(11, 12))
         );
@@ -39,11 +39,11 @@ class AppTest {
     private static Stream<Arguments> simplifyFractions() {
         return Stream.of(
                 Arguments.of(of(1, 2), of(1, 2)),
-                Arguments.of(of(2, 2), of(1, 1)),
-                Arguments.of(of(4, 4), of(1, 1)),
-                Arguments.of(of(8, 4), of(2, 1)),
-                Arguments.of(of(100, 25), of(4, 1)),
-                Arguments.of(of(0, 25), of(0, 1)),
+                Arguments.of(of(2, 2), of(1)),
+                Arguments.of(of(4, 4), of(1)),
+                Arguments.of(of(8, 4), of(2)),
+                Arguments.of(of(100, 25), of(4)),
+                Arguments.of(of(0, 25), of(0)),
                 Arguments.of(of(-47, 25), of(-47, 25))
         );
     }

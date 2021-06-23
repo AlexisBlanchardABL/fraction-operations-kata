@@ -15,6 +15,10 @@ public class Fraction {
         return new Fraction(numerator, denominator).simplify();
     }
 
+    public static Fraction of(int numerator) {
+        return new Fraction(numerator, 1).simplify();
+    }
+
     public Fraction add(Fraction fractionToAdd) {
         return Fraction.of((this.numerator * fractionToAdd.denominator) + (fractionToAdd.numerator * this.denominator), fractionToAdd.denominator * this.denominator);
     }
