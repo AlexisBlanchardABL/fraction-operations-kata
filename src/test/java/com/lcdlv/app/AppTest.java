@@ -13,4 +13,10 @@ class AppTest {
         assertTrue(true);
     }
 
+    @Test
+    void shouldAddFractions() {
+        Fraction fraction = Fraction.of(1, 1);
+        assertThat(fraction.add(Fraction.of(1,1))).isEqualTo(Fraction.of(2,1));
+    }
+
 }
