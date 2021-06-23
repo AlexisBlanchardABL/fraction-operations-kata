@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AppTest {
 
     @ParameterizedTest(name = "{0} + {1} = {2}")
-    @MethodSource("addFractionSameDenominator")
-    void shouldAddFractionsWithSameDenominator(Fraction fraction, Fraction fractionToAdd, Fraction expectedResult) {
+    @MethodSource("addFraction")
+    void shouldAddFractions(Fraction fraction, Fraction fractionToAdd, Fraction expectedResult) {
         assertThat(fraction.add(fractionToAdd)).isEqualTo(expectedResult);
     }
 
-    private static Stream<Arguments> addFractionSameDenominator() {
+    private static Stream<Arguments> addFraction() {
         return Stream.of(
                 Arguments.of(of(1, 1), of(1, 1), of(2, 1)),
                 Arguments.of(of(3, 1), of(8, 1), of(11, 1)),
