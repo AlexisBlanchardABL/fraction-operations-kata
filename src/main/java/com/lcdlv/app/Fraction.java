@@ -12,6 +12,9 @@ public class Fraction {
     }
 
     public static Fraction of(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Denominator value 0, is not legal");
+        }
         return new Fraction(numerator, denominator).simplify();
     }
 

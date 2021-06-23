@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import static com.lcdlv.app.Fraction.of;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class AppTest {
@@ -46,6 +47,11 @@ class AppTest {
                 Arguments.of(of(0, 25), of(0)),
                 Arguments.of(of(-47, 25), of(-47, 25))
         );
+    }
+
+    @Test
+    void shouldThrowAnExceptionWhenDenominatorIsZero() {
+        assertThrows(IllegalArgumentException.class, () -> Fraction.of(1, 0));
     }
 
 }
