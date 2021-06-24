@@ -3,6 +3,8 @@ package com.lcdlv.app;
 import java.math.BigInteger;
 
 public class Fraction {
+    private static final Fraction ONE = of(1);
+
     private int numerator;
     private int denominator;
 
@@ -27,7 +29,13 @@ public class Fraction {
     }
 
     public Fraction multiply(Fraction fraction) {
-        return this.equals(of(1)) ? fraction : this;
+        if (this.equals(ONE)) {
+            return fraction;
+        } else if (fraction.equals(ONE)) {
+            return this;
+        } else {
+            return of(this.numerator * fraction.numerator);
+        }
     }
 
     @Override
