@@ -27,8 +27,8 @@ class FractionAdditionTest {
                 Arguments.of(of(4), of(16), of(20)),
                 Arguments.of(of(1, 2), of(1, 2), of(1)),
                 Arguments.of(of(2, 2), of(2, 2), of(2)),
-                Arguments.of(of(5,8), of(4, 2), of(21, 8)),
-                Arguments.of(of(2,3), of(1, 4), of(11, 12))
+                Arguments.of(of(5, 8), of(4, 2), of(21, 8)),
+                Arguments.of(of(2, 3), of(1, 4), of(11, 12))
         );
     }
 
@@ -37,6 +37,7 @@ class FractionAdditionTest {
     void shouldSimplifyFractions(Fraction fraction, Fraction expectedResult) {
         assertThat(fraction.simplify()).isEqualTo(expectedResult);
     }
+
     private static Stream<Arguments> simplifyFractions() {
         return Stream.of(
                 Arguments.of(of(1, 2), of(1, 2)),
