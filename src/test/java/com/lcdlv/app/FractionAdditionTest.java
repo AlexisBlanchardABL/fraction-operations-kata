@@ -21,6 +21,8 @@ class FractionAdditionTest {
         return Stream.of(
                 Arguments.of(of(1), of(1), of(2)),
                 Arguments.of(of(3), of(8), of(11)),
+                Arguments.of(of(3), of(0), of(3)),
+                Arguments.of(of(0), of(5), of(5)),
                 Arguments.of(of(4), of(16), of(20)),
                 Arguments.of(of(1, 2), of(1, 2), of(1)),
                 Arguments.of(of(2, 2), of(2, 2), of(2)),

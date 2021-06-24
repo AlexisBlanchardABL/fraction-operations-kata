@@ -23,16 +23,28 @@ public class Fraction {
         return new Fraction(numerator, 1).simplify();
     }
 
-    public Fraction add(Fraction fractionToAdd) {
-        return Fraction.of((this.numerator * fractionToAdd.denominator) + (fractionToAdd.numerator * this.denominator), fractionToAdd.denominator * this.denominator);
+    public Fraction add(Fraction fraction) {
+        return Fraction.of((this.numerator * fraction.denominator) + (fraction.numerator * this.denominator), fraction.denominator * this.denominator);
     }
 
     public Fraction multiply(Fraction fraction) {
         return of(this.numerator * fraction.numerator, this.denominator * fraction.denominator);
     }
 
-    public Fraction divide(Fraction fractionToDivide) {
-        return multiply(of(fractionToDivide.denominator, fractionToDivide.numerator));
+    public Fraction divide(Fraction fraction) {
+        return multiply(fraction.reverse());
+    }
+
+    private Fraction reverse() {
+        return of(this.denominator, this.numerator);
+    }
+
+    public Fraction subtract(Fraction fraction) {
+        return add(fraction.opposite());
+    }
+
+    private Fraction opposite() {
+        return of(-this.numerator, this.denominator);
     }
 
     @Override
@@ -67,11 +79,9 @@ public class Fraction {
         return new Fraction(this.numerator / gcd, this.denominator / gcd);
     }
 
+    // move into an other class
     private int getGcd(Fraction fraction) {
         return BigInteger.valueOf(fraction.numerator).gcd(BigInteger.valueOf(fraction.denominator)).intValue();
     }
 
-    public Fraction subtract(Fraction fractionToSubtract) {
-        return add(of(-fractionToSubtract.numerator, fractionToSubtract.denominator));
-    }
 }
