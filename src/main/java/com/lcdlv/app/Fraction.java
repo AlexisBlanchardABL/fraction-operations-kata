@@ -31,6 +31,10 @@ public class Fraction {
         return of(this.numerator * fraction.numerator, this.denominator * fraction.denominator);
     }
 
+    public Fraction divide(Fraction fractionToDivide) {
+        return multiply(of(fractionToDivide.denominator, fractionToDivide.numerator));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,5 +70,4 @@ public class Fraction {
     private int getGcd(Fraction fraction) {
         return BigInteger.valueOf(fraction.numerator).gcd(BigInteger.valueOf(fraction.denominator)).intValue();
     }
-
 }
