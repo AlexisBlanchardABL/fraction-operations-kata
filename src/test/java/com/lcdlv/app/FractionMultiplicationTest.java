@@ -13,7 +13,7 @@ class FractionMultiplicationTest {
 
     @ParameterizedTest(name = "{0} multiplied by {1} => {2}")
     @MethodSource("multiplyFractionsWhenIdentity")
-    void shouldMultiplyFractionsWhenIdentity(Fraction fraction, Fraction fractionToMultiply, Fraction expectedResult) {
+    void shouldMultiplyFractions(Fraction fraction, Fraction fractionToMultiply, Fraction expectedResult) {
         assertThat(fraction.multiply(fractionToMultiply)).isEqualTo(expectedResult);
     }
 
@@ -21,7 +21,8 @@ class FractionMultiplicationTest {
         return Stream.of(
                 Arguments.of(of(1, 2), of(1), of(1, 2)),
                 Arguments.of(of(1), of(1), of(1)),
-                Arguments.of(of(5, 2), of(1), of(5, 2))
+                Arguments.of(of(5, 2), of(1), of(5, 2)),
+                Arguments.of(of(1), of(4, 7), of(4, 7))
         );
     }
 

@@ -27,7 +27,7 @@ public class Fraction {
     }
 
     public Fraction multiply(Fraction fraction) {
-        return this;
+        return this.equals(of(1)) ? fraction : this;
     }
 
     @Override
