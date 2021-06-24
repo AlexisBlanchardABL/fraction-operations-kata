@@ -13,14 +13,15 @@ class FractionMultiplicationTest {
 
     @ParameterizedTest(name = "{0} multiplied by {1} => {2}")
     @MethodSource({
-            "multiplyFractionsWhenIdentity",
-            "multiplyFractionsDenominatorIsOne"
+            "identity",
+            "denominatorIsOne",
+            "negativeFractions"
     })
     void shouldMultiplyFractions(Fraction fraction, Fraction fractionToMultiply, Fraction expectedResult) {
         assertThat(fraction.multiply(fractionToMultiply)).isEqualTo(expectedResult);
     }
 
-    private static Stream<Arguments> multiplyFractionsWhenIdentity() {
+    private static Stream<Arguments> identity() {
         return Stream.of(
                 Arguments.of(of(1, 2), of(1), of(1, 2)),
                 Arguments.of(of(1), of(1), of(1)),
@@ -30,11 +31,18 @@ class FractionMultiplicationTest {
     }
 
 
-    private static Stream<Arguments> multiplyFractionsDenominatorIsOne() {
+    private static Stream<Arguments> denominatorIsOne() {
         return Stream.of(
                 Arguments.of(of(8), of(2), of(16)),
                 Arguments.of(of(10), of(3), of(30)),
                 Arguments.of(of(21), of(4), of(84))
+        );
+    }
+
+    private static Stream<Arguments> negativeFractions() {
+        return Stream.of(
+                Arguments.of(of(-51), of(5), of(-255)),
+                Arguments.of(of(5), of(-4), of(-20))
         );
     }
 
