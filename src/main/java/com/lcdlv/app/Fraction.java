@@ -70,4 +70,8 @@ public class Fraction {
     private int getGcd(Fraction fraction) {
         return BigInteger.valueOf(fraction.numerator).gcd(BigInteger.valueOf(fraction.denominator)).intValue();
     }
+
+    public Fraction subtract(Fraction fractionToSubtract) {
+        return add(of(-fractionToSubtract.numerator, fractionToSubtract.denominator));
+    }
 }
