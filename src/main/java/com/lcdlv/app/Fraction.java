@@ -34,7 +34,7 @@ public class Fraction {
         } else if (fraction.equals(ONE)) {
             return this;
         } else {
-            return of(this.numerator * fraction.numerator);
+            return of(this.numerator * fraction.numerator, this.denominator * fraction.denominator);
         }
     }
 
