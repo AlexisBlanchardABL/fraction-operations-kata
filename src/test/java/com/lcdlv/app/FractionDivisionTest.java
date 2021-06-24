@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FractionDivisionTest {
 
-    @ParameterizedTest(name = "{0} divided by {1} => {2}")
+    @ParameterizedTest(name = "({0}) ÷ ({1}) = {2}")
     @MethodSource({
             "oneOfTheFractionIsOne",
             "denominatorIsOne",

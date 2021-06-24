@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FractionMultiplicationTest {
 
-    @ParameterizedTest(name = "{0} multiplied by {1} => {2}")
+    @ParameterizedTest(name = "({0}) * ({1}) = {2}")
     @MethodSource({
             "identity",
             "denominatorIsOne",
