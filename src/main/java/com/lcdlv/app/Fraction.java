@@ -1,7 +1,5 @@
 package com.lcdlv.app;
 
-import java.math.BigInteger;
-
 public class Fraction {
 
     private int numerator;
@@ -71,17 +69,12 @@ public class Fraction {
     }
 
     Fraction simplify() {
-        if (denominator < 0) {
-            denominator *= -1;
-            numerator *= -1;
+        if (this.denominator < 0) {
+            this.denominator *= -1;
+            this.numerator *= -1;
         }
-        int gcd = getGcd(this);
+        int gcd = GreaterCommonDivisor.compute(this.numerator, this.denominator);
         return new Fraction(this.numerator / gcd, this.denominator / gcd);
-    }
-
-    // move into an other class
-    private int getGcd(Fraction fraction) {
-        return BigInteger.valueOf(fraction.numerator).gcd(BigInteger.valueOf(fraction.denominator)).intValue();
     }
 
 }
