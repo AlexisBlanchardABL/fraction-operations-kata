@@ -15,7 +15,8 @@ class FractionMultiplicationTest {
     @MethodSource({
             "identity",
             "denominatorIsOne",
-            "negativeFractions"
+            "negativeFractions",
+            "fractionsWithDenominator"
     })
     void shouldMultiplyFractions(Fraction fraction, Fraction fractionToMultiply, Fraction expectedResult) {
         assertThat(fraction.multiply(fractionToMultiply)).isEqualTo(expectedResult);
@@ -43,6 +44,14 @@ class FractionMultiplicationTest {
         return Stream.of(
                 Arguments.of(of(-51), of(5), of(-255)),
                 Arguments.of(of(5), of(-4), of(-20))
+        );
+    }
+
+    private static Stream<Arguments> fractionsWithDenominator() {
+        return Stream.of(
+                Arguments.of(of(1, 3), of(1, 5), of(1, 15)),
+                Arguments.of(of(4, 3), of(7, 8), of(7, 6))
+
         );
     }
 
