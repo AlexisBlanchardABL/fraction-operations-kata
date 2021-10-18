@@ -18,7 +18,7 @@ public class TripServiceTest {
 
 
     @Test
-    void shouldThrowAnException() {
+    void throwsAnException() {
         User loggedUser = null;
         tripService = new MyTripService(loggedUser);
         User user = new User();
@@ -28,13 +28,26 @@ public class TripServiceTest {
     }
 
     @Test
-    void shoultReturnEmptyTripList_whenUserHasNoFriend() {
+    void returnEmptyTripList_whenUserHasNoFriend() {
         // Given
         User loggedUser = new User();
         tripService = new MyTripService(loggedUser);
         User userWithNoFriends = new User();
         // When
         List<Trip> trips = tripService.getTripsByUser(userWithNoFriends);
+        // Then
+        assertTrue(trips.isEmpty());
+    }
+
+    @Test
+    void returnEmptyTripList_whenUserAFriendButDifferentThanLoggedUser() {
+        // Given
+        User loggedUser = new User();
+        tripService = new MyTripService(loggedUser);
+        User user = new User();
+        user.addFriend(new User());
+        // When
+        List<Trip> trips = tripService.getTripsByUser(user);
         // Then
         assertTrue(trips.isEmpty());
     }
