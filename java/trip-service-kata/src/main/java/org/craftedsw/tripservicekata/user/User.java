@@ -26,4 +26,7 @@ public class User {
 		return trips;
 	}
 
+	public boolean hasFriend(User user) {
+		return getFriends().stream().anyMatch(user::equals);
+	}
 }

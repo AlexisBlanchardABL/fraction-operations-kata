@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
-public class TripServiceTest {
+class TripServiceTest {
 
     private TripService tripService;
 
@@ -30,7 +31,7 @@ public class TripServiceTest {
     void throwsAnException_whenLoggedUserIsNull() {
         // Given
         User loggedUser = null;
-        doReturn(loggedUser).when(userRepository).getSessionUser();
+        givenLoggedUser(loggedUser);
         tripService = new TripService(userRepository, tripRepository);
         User user = new User();
         // When Then
@@ -42,8 +43,7 @@ public class TripServiceTest {
     @Test
     void returnEmptyTripList_whenUserHasNoFriend() {
         // Given
-        User loggedUser = new User();
-        doReturn(loggedUser).when(userRepository).getSessionUser();
+        givenLoggedUser(new User());
         tripService = new TripService(userRepository, tripRepository);
         User userWithNoFriends = new User();
         // When
@@ -55,18 +55,25 @@ public class TripServiceTest {
     @Test
     void returnTripListOfUser_whenUserHasAFriendWhichIsLoggedUser() {
         // Given
-        User loggedUser = new User();
-        Trip trip = new Trip();
         User user = new User();
+        User loggedUser = new User();
         user.addFriend(loggedUser);
-
-        doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
-        doReturn(loggedUser).when(userRepository).getSessionUser();
+        Trip trip = new Trip();
+        givenTripsForUser(trip, user);
+        givenLoggedUser(loggedUser);
         tripService = new TripService(userRepository, tripRepository);
         // When
         List<Trip> trips = tripService.getTripsByUser(user);
         // Then
         assertThat(trips).containsExactly(trip);
+    }
+
+    private void givenTripsForUser(Trip trip, User user) {
+        doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
+    }
+
+    private void givenLoggedUser(User loggedUser) {
+        doReturn(Optional.ofNullable(loggedUser)).when(userRepository).getSessionUser();
     }
 
 }
