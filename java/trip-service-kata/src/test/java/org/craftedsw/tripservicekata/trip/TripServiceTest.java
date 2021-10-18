@@ -2,8 +2,10 @@ package org.craftedsw.tripservicekata.trip;
 
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
+import org.craftedsw.tripservicekata.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class TripServiceTest {
@@ -23,7 +26,9 @@ public class TripServiceTest {
     void throwsAnException_whenLoggedUserIsNull() {
         // Given
         User loggedUser = null;
-        tripService = new MyTripService(loggedUser);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
+        doReturn(loggedUser).when(userRepository).getSessionUser();
+        tripService = new TripService(userRepository);
         User user = new User();
         // When Then
         assertThrows(UserNotLoggedInException.class, () -> {
@@ -35,7 +40,9 @@ public class TripServiceTest {
     void returnEmptyTripList_whenUserHasNoFriend() {
         // Given
         User loggedUser = new User();
-        tripService = new MyTripService(loggedUser);
+        UserRepository userRepository = Mockito.mock(UserRepository.class);
+        doReturn(loggedUser).when(userRepository).getSessionUser();
+        tripService = new TripService(userRepository);
         User userWithNoFriends = new User();
         // When
         List<Trip> trips = tripService.getTripsByUser(userWithNoFriends);
