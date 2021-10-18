@@ -70,25 +70,44 @@ class TripServiceTest {
         @Test
         void returnTripListOfUser_whenUserHasAFriendWhichIsLoggedUser() {
             // Given
-            User user = userWithFriend(loggedUser);
-            Trip trip = saveTrip(user, new Trip());
+            Trip trip = new Trip();
+            User user = userBuilder()
+                    .withFriend(loggedUser)
+                    .saveTrip(trip)
+                    .build();
+
             // When
             List<Trip> trips = tripService.getTripsByUser(user);
             // Then
             assertThat(trips).containsExactly(trip);
         }
 
-        private Trip saveTrip(User user, Trip trip) {
-            doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
-            return trip;
-        }
     }
 
 
-    private User userWithFriend(User loggedUser) {
-        User user = new User();
-        user.addFriend(loggedUser);
-        return user;
+    UserBuilder userBuilder() {
+        return new UserBuilder();
+    }
+
+    class UserBuilder {
+
+        private User friend;
+        private final User user = new User();
+
+        public UserBuilder withFriend(User user) {
+            this.friend = user;
+            return this;
+        }
+
+        public UserBuilder saveTrip(Trip trip) {
+            doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
+            return this;
+        }
+
+        User build() {
+            user.addFriend(friend);
+            return user;
+        }
     }
 
 }
