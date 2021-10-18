@@ -6,18 +6,15 @@ import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
 import org.craftedsw.tripservicekata.user.UserRepository;
-import org.craftedsw.tripservicekata.user.UserSession;
 
 public class TripService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TripRepository tripRepository;
 
-    public TripService() {
-        this.userRepository = null;
-    }
-
-    public TripService(UserRepository userRepository) {
+    public TripService(UserRepository userRepository, TripRepository tripRepository) {
         this.userRepository = userRepository;
+        this.tripRepository = tripRepository;
     }
 
     public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
@@ -41,13 +38,10 @@ public class TripService {
     }
 
     List<Trip> getUserTrips(User user) {
-        return TripDAO.findTripsByUser(user);
+        return tripRepository.getUserTrips(user);
     }
 
     User getLoggedUser() {
-        if (userRepository == null) {
-            return UserSession.getInstance().getLoggedUser();
-        }
         return userRepository.getSessionUser();
     }
 
