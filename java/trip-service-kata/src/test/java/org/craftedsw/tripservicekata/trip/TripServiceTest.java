@@ -20,10 +20,12 @@ public class TripServiceTest {
 
 
     @Test
-    void throwsAnException() {
+    void throwsAnException_whenLoggedUserIsNull() {
+        // Given
         User loggedUser = null;
         tripService = new MyTripService(loggedUser);
         User user = new User();
+        // When Then
         assertThrows(UserNotLoggedInException.class, () -> {
             tripService.getTripsByUser(user);
         });
