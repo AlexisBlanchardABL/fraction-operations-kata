@@ -3,6 +3,9 @@ package org.craftedsw.tripservicekata.trip;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
 import org.craftedsw.tripservicekata.user.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,13 +29,16 @@ class TripServiceTest {
     @Mock
     private TripRepository tripRepository;
 
+    @BeforeEach
+    void setup() {
+        tripService = new TripService(userRepository, tripRepository);
+    }
+
 
     @Test
     void throwsAnException_whenLoggedUserIsNull() {
         // Given
-        User loggedUser = null;
-        givenLoggedUser(loggedUser);
-        tripService = new TripService(userRepository, tripRepository);
+        doReturn(Optional.empty()).when(userRepository).getSessionUser();
         User user = new User();
         // When Then
         assertThrows(UserNotLoggedInException.class, () -> {
@@ -40,40 +46,49 @@ class TripServiceTest {
         });
     }
 
-    @Test
-    void returnEmptyTripList_whenUserHasNoFriend() {
-        // Given
-        givenLoggedUser(new User());
-        tripService = new TripService(userRepository, tripRepository);
-        User userWithNoFriends = new User();
-        // When
-        List<Trip> trips = tripService.getTripsByUser(userWithNoFriends);
-        // Then
-        assertThat(trips).isEmpty();
+    @Nested
+    @DisplayName("Given a logged in user")
+    class LoggedInUser {
+        private User loggedUser;
+
+        @BeforeEach
+        void setUp() {
+            loggedUser = new User();
+            doReturn(Optional.of(loggedUser)).when(userRepository).getSessionUser();
+        }
+
+        @Test
+        void returnEmptyTripList_whenUserHasNoFriend() {
+            // Given
+            User userWithNoFriends = new User();
+            // When
+            List<Trip> trips = tripService.getTripsByUser(userWithNoFriends);
+            // Then
+            assertThat(trips).isEmpty();
+        }
+
+        @Test
+        void returnTripListOfUser_whenUserHasAFriendWhichIsLoggedUser() {
+            // Given
+            User user = userWithFriend(loggedUser);
+            Trip trip = saveTrip(user, new Trip());
+            // When
+            List<Trip> trips = tripService.getTripsByUser(user);
+            // Then
+            assertThat(trips).containsExactly(trip);
+        }
+
+        private Trip saveTrip(User user, Trip trip) {
+            doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
+            return trip;
+        }
     }
 
-    @Test
-    void returnTripListOfUser_whenUserHasAFriendWhichIsLoggedUser() {
-        // Given
+
+    private User userWithFriend(User loggedUser) {
         User user = new User();
-        User loggedUser = new User();
         user.addFriend(loggedUser);
-        Trip trip = new Trip();
-        givenTripsForUser(trip, user);
-        givenLoggedUser(loggedUser);
-        tripService = new TripService(userRepository, tripRepository);
-        // When
-        List<Trip> trips = tripService.getTripsByUser(user);
-        // Then
-        assertThat(trips).containsExactly(trip);
-    }
-
-    private void givenTripsForUser(Trip trip, User user) {
-        doReturn(singletonList(trip)).when(tripRepository).getUserTrips(user);
-    }
-
-    private void givenLoggedUser(User loggedUser) {
-        doReturn(Optional.ofNullable(loggedUser)).when(userRepository).getSessionUser();
+        return user;
     }
 
 }
