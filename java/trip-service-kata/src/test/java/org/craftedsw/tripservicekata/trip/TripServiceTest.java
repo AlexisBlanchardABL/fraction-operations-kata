@@ -8,9 +8,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class TripServiceTest {
@@ -41,30 +42,43 @@ public class TripServiceTest {
     }
 
     @Test
-    void returnEmptyTripList_whenUserAFriendButDifferentThanLoggedUser() {
+    void returnTripListOfUser_whenUserHasAFriendWhichIsLoggedUser() {
         // Given
         User loggedUser = new User();
-        tripService = new MyTripService(loggedUser);
+        Trip trip = new Trip();
+        tripService = new MyTripService(loggedUser, singletonList(trip));
         User user = new User();
-        user.addFriend(new User());
+        user.addFriend(loggedUser);
         // When
         List<Trip> trips = tripService.getTripsByUser(user);
         // Then
-        assertTrue(trips.isEmpty());
+        assertThat(trips).containsExactly(trip);
     }
 
 
     private static class MyTripService extends TripService {
         private final User loggedUser;
+        private final List<Trip> userTrips;
+
+        public MyTripService(User loggedUser, List<Trip> userTrips) {
+            this.loggedUser = loggedUser;
+            this.userTrips = userTrips;
+        }
 
         public MyTripService(User loggedUser) {
-            this.loggedUser = loggedUser;
+            this(loggedUser, emptyList());
         }
 
         @Override
         User getLoggedUser() {
             return loggedUser;
         }
+
+        @Override
+        List<Trip> getUserTrips(User user) {
+            return userTrips;
+        }
+
     }
 
 }
